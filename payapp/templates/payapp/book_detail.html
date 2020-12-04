@@ -1,0 +1,22 @@
+{% extends 'payapp/base.html' %}
+
+
+{% block content %}
+<p>{{message}}</p>
+<a href="{% url 'payapp:index' %}">戻る</a>
+
+<h1>{{book.title}}</h1>
+<p class="lead">{{book.created_at}}-{{book.price}}円</p>
+<p>{{book.description | linebreaksbr}}</p>
+
+{% if user.is_authenticated %}
+<form action="" method="POST">
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{publick_key}}"
+    data-amount="{{book.price}}" data-name="TOEIC本" data-description="{{book.title}}"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="ja" data-currency="jpy"
+    data-email="{{user.email}}">
+    </script>
+  {% csrf_token %}
+</form>
+{% endif %}
+{% endblock content %}
